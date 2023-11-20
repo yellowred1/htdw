@@ -81,15 +81,14 @@ def export_mysql_data_batch(host, user, password, database, table, output_file, 
                         total_rows_exported += 1
                         # 每次达到最大行数时，切换到新的 sheet
                         if current_row_count >= max_rows_per_sheet:
-                            print(f'{current_sheet}')
                             file.close()
                             current_sheet += 1
+                            print(f'切换{current_sheet}')
                             current_row_count = 0
                             file_path = os.path.join(output_directory, f"{output_file}_sheet{current_sheet}.csv")
                             file = open(file_path, 'w', encoding='utf-8')
                             # 写入标题到新的 sheet
-                            with open(file_path, 'w', encoding='utf-8') as new_file:
-                                new_file.write(','.join(header_info) + '\n')
+                            file.write(','.join(header_info) + '\n')
 
                     print(f"{output_file}_sheet{current_sheet-1}.csv导出成功")
 
